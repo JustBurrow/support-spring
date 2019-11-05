@@ -21,6 +21,9 @@ allprojects {
   repositories {
     jcenter()
     mavenCentral()
+    maven {
+      url "https://dl.bintray.com/justburrow/kr.lul.common"
+    }
   }
 }
 
@@ -39,6 +42,8 @@ subprojects {
     }
 
     dependencies {
+      dependency("kr.lul.common:common-util:0.0.1")
+
       dependency("org.assertj:assertj-core:3.14.0")
       dependency("org.apache.commons:commons-lang3:3.9")
     }
