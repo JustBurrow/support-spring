@@ -1,0 +1,80 @@
+buildscript {
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE")
+    classpath("io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE")
+    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+")
+  }
+}
+
+apply plugin: "idea"
+apply plugin: "eclipse"
+
+allprojects {
+  group "kr.lul.support.spring"
+  version "0.0.1"
+
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+}
+
+subprojects {
+  apply plugin: "java"
+  apply plugin: "org.springframework.boot"
+  apply plugin: "io.spring.dependency-management"
+  apply plugin: "com.jfrog.bintray"
+
+  sourceCompatibility = 13
+  targetCompatibility = 13
+
+  dependencyManagement {
+    imports {
+      mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+
+    dependencies {
+      dependency("org.assertj:assertj-core:3.14.0")
+      dependency("org.apache.commons:commons-lang3:3.9")
+    }
+  }
+
+  dependencies {
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.assertj:assertj-core")
+  }
+
+  jar.enabled = true
+  bootJar.enabled = false
+
+  bintray {
+    user = bintrayUser
+    key = bintrayApiKey
+
+    pkg {
+      repo = project.group
+      println("project.group : ${project.group}")
+      name = project.name
+      println("project.name : ${project.name}")
+
+      licenses = ['Apache-2.0']
+      publicDownloadNumbers = true
+      publish = true
+      configurations = ['archives']
+
+      vcsUrl = "https://github.com/JustBurrow/support-spring.git"
+      githubRepo = 'JustBurrow/support-spring'
+      githubReleaseNotesFile = 'README.md'
+
+      version {
+        name = project.version
+        println("version.name : ${project.version}")
+      }
+    }
+  }
+}
