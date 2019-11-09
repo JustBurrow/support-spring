@@ -1,0 +1,3 @@
+rootProject.name = 'support-spring'
+
+include 'support-spring-data-jpa'
