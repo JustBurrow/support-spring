@@ -1,3 +1,4 @@
 rootProject.name = 'support-spring'
 
-include 'support-spring-data-jpa'
+include 'support-spring-data-jpa',
+    'support-spring-security'
