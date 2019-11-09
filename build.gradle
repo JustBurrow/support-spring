@@ -22,7 +22,7 @@ allprojects {
     jcenter()
     mavenCentral()
     maven {
-      url "https://dl.bintray.com/justburrow/kr.lul.common"
+      url "https://dl.bintray.com/justburrow/kr.lul"
     }
   }
 }
@@ -62,10 +62,8 @@ subprojects {
     key = bintrayApiKey
 
     pkg {
-      repo = project.group
-      println("project.group : ${project.group}")
+      repo = "kr.lul"
       name = project.name
-      println("project.name : ${project.name}")
 
       licenses = ['Apache-2.0']
       publicDownloadNumbers = true
@@ -78,7 +76,6 @@ subprojects {
 
       version {
         name = project.version
-        println("version.name : ${project.version}")
       }
     }
   }
