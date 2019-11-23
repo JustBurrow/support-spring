@@ -126,7 +126,7 @@ subprojects {
       githubReleaseNotesFile = "README.md"
 
       version {
-        name = project.version
+        name = rootProject.version
         desc = project.description
       }
     }
