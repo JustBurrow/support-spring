@@ -17,8 +17,14 @@ apply plugin: "eclipse"
 
 group "kr.lul.support.spring"
 version "0.0.1.SNAPSHOT"
+description """
+"""
 
 allprojects {
+  ext {
+    COMMON_VERSION = "0.0.1.SNAPSHOT"
+  }
+
   repositories {
     jcenter()
     mavenCentral()
@@ -48,7 +54,6 @@ subprojects {
       mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
     }
 
-    def COMMON_VERSION = "0.0.1.SNAPSHOT"
     dependencies {
       dependency "kr.lul.common:common-util:$COMMON_VERSION"
 
@@ -109,7 +114,7 @@ subprojects {
       websiteUrl = "https://blog.lul.kr"
       issueTrackerUrl = "https://github.com/JustBurrow/support-spring/issues"
       vcsUrl = "https://github.com/JustBurrow/support-spring.git"
-      licenses = ['Apache-2.0']
+      licenses = ["Apache-2.0"]
 
       publicDownloadNumbers = true
       publish = true
@@ -117,8 +122,8 @@ subprojects {
       configurations = ["archives"]
       publications = ['mavenPublication']
 
-      githubRepo = 'JustBurrow/support-spring'
-      githubReleaseNotesFile = 'README.md'
+      githubRepo = "JustBurrow/support-spring"
+      githubReleaseNotesFile = "README.md"
 
       version {
         name = project.version
