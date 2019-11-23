@@ -67,6 +67,24 @@ subprojects {
     testImplementation "org.assertj:assertj-core"
   }
 
+  def projectGroup = rootProject.group
+  def projectName = project.name
+  def projectVersion = "unspecified" != project.version
+      ? project.version
+      : rootProject.version
+  def isRelease = projectVersion.endsWith("RELEASE")
+  def isSnapshot = projectVersion.endsWith("SNAPSHOT")
+
+  println("""
+      subproject ========================================
+      group : $projectGroup
+      name : $projectName
+      version : $projectVersion
+      release : $isRelease
+      snapshot : $isSnapshot
+      ===================================================
+      """.stripIndent())
+
   jar.enabled = true
   bootJar.enabled = false
 
@@ -92,9 +110,9 @@ subprojects {
         artifact sourcesJar
         artifact javadocJar
 
-        groupId project.group
-        artifactId project.name
-        version project.version
+        groupId projectGroup
+        artifactId projectName
+        version projectVersion
       }
     }
   }
@@ -103,12 +121,9 @@ subprojects {
     user = BINTRAY_USER
     key = BINTRAY_API_KEY
 
-    def isRelease = project.version.toString().endsWith("RELEASE")
-    def isSnapshot = project.version.toString().endsWith("SNAPSHOT")
-
     pkg {
       repo = isRelease ? "release" : "snapshot"
-      name = project.name
+      name = projectName
       desc = project.description
 
       websiteUrl = "https://blog.lul.kr"
@@ -119,14 +134,13 @@ subprojects {
       publicDownloadNumbers = true
       publish = true
       override = isSnapshot
-      configurations = ["archives"]
       publications = ['mavenPublication']
 
       githubRepo = "JustBurrow/support-spring"
       githubReleaseNotesFile = "README.md"
 
       version {
-        name = rootProject.version
+        name = projectVersion
         desc = project.description
       }
     }
