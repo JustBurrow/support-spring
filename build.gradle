@@ -2,27 +2,32 @@ buildscript {
   repositories {
     jcenter()
     mavenCentral()
+    mavenLocal()
   }
 
   dependencies {
-    classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE")
-    classpath("io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE")
-    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+")
+    classpath "org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE"
+    classpath "io.spring.gradle:dependency-management-plugin:1.0.8.RELEASE"
+    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.+"
   }
 }
 
 apply plugin: "idea"
 apply plugin: "eclipse"
 
-allprojects {
-  group "kr.lul.support.spring"
-  version "0.0.1"
+group "kr.lul.support.spring"
+version "0.0.1.SNAPSHOT"
 
+allprojects {
   repositories {
     jcenter()
     mavenCentral()
+    mavenLocal()
     maven {
-      url "https://dl.bintray.com/justburrow/kr.lul"
+      url "https://dl.bintray.com/justburrow/snapshot"
+    }
+    maven {
+      url "https://dl.bintray.com/justburrow/release"
     }
   }
 }
@@ -31,51 +36,93 @@ subprojects {
   apply plugin: "java"
   apply plugin: "org.springframework.boot"
   apply plugin: "io.spring.dependency-management"
+
+  apply plugin: "maven-publish"
   apply plugin: "com.jfrog.bintray"
 
-  sourceCompatibility = 13
-  targetCompatibility = 13
+  sourceCompatibility = 11
+  targetCompatibility = 11
 
   dependencyManagement {
     imports {
       mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
     }
 
+    def COMMON_VERSION = "0.0.1.SNAPSHOT"
     dependencies {
-      dependency("kr.lul.common:common-util:0.0.1")
+      dependency "kr.lul.common:common-util:$COMMON_VERSION"
 
-      dependency("org.assertj:assertj-core:3.14.0")
-      dependency("org.apache.commons:commons-lang3:3.9")
+      dependency "org.assertj:assertj-core:3.14.0"
+      dependency "org.apache.commons:commons-lang3:3.9"
     }
   }
 
   dependencies {
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.assertj:assertj-core")
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testImplementation "org.assertj:assertj-core"
   }
 
   jar.enabled = true
   bootJar.enabled = false
 
+  task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier = 'javadoc'
+    from javadoc.destinationDir
+  }
+
+  artifacts {
+    archives sourcesJar, javadocJar
+  }
+
+  publishing {
+    publications {
+      mavenPublication(MavenPublication) {
+        from components.java
+
+        artifact sourcesJar
+        artifact javadocJar
+
+        groupId project.group
+        artifactId project.name
+        version project.version
+      }
+    }
+  }
+
   bintray {
-    user = bintrayUser
-    key = bintrayApiKey
+    user = BINTRAY_USER
+    key = BINTRAY_API_KEY
+
+    def isRelease = project.version.toString().endsWith("RELEASE")
+    def isSnapshot = project.version.toString().endsWith("SNAPSHOT")
 
     pkg {
-      repo = "kr.lul"
+      repo = isRelease ? "release" : "snapshot"
       name = project.name
+      desc = project.description
 
+      websiteUrl = "https://blog.lul.kr"
+      issueTrackerUrl = "https://github.com/JustBurrow/support-spring/issues"
+      vcsUrl = "https://github.com/JustBurrow/support-spring.git"
       licenses = ['Apache-2.0']
+
       publicDownloadNumbers = true
       publish = true
-      configurations = ['archives']
+      override = isSnapshot
+      configurations = ["archives"]
+      publications = ['mavenPublication']
 
-      vcsUrl = "https://github.com/JustBurrow/support-spring.git"
       githubRepo = 'JustBurrow/support-spring'
       githubReleaseNotesFile = 'README.md'
 
       version {
         name = project.version
+        desc = project.description
       }
     }
   }
