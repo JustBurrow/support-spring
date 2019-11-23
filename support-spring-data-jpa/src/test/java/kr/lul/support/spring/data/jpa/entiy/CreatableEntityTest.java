@@ -12,43 +12,36 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author justburrow
  * @since 2019/11/09
  */
-public class CreatableTest {
-  private static final Logger log = getLogger(CreatableTest.class);
+public class CreatableEntityTest {
+  private static final Logger log = getLogger(CreatableEntityTest.class);
 
   @Test
-  public void test_constructor() throws Exception {
-    // GIVEN
-    Instant before = Instant.now();
-    log.info("GIVEN - before={}", before);
-
+  public void test_new() throws Exception {
     // WHEN
-    Creatable actual = new Creatable() {
+    CreatableEntity actual = new CreatableEntity() {
     };
     log.info("WHEN - actual={}", actual);
 
     // THEN
-    assertThat(actual)
-        .isNotNull();
     assertThat(actual.createdAt)
-        .isNotNull()
-        .isAfterOrEqualTo(before);
+        .isNull();
   }
 
   @Test
-  public void test_constructor_with_now() throws Exception {
+  public void test_new_with_now() throws Exception {
     // GIVEN
     Instant before = Instant.now();
     log.info("GIVEN - before={}", before);
 
     // WHEN
-    Creatable actual = new Creatable(before) {
+    CreatableEntity actual = new CreatableEntity(before) {
     };
     log.info("WHEN - actual={}", actual);
 
     // THEN
     assertThat(actual)
         .isNotNull()
-        .extracting(Creatable::getCreatedAt)
+        .extracting(CreatableEntity::getCreatedAt)
         .isEqualTo(before);
   }
 }

@@ -1,9 +1,9 @@
 package kr.lul.support.spring.data.jpa.entiy;
 
+import kr.lul.common.data.Savable;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import java.time.Instant;
 
 import static java.lang.String.format;
@@ -16,7 +16,7 @@ import static kr.lul.common.util.Arguments.notNull;
  * @since 2019/11/09
  */
 @MappedSuperclass
-public abstract class Updatable {
+public abstract class SavableEntity implements Savable<Instant> {
   public static final String ATTR_CREATED_AT = "createdAt";
   public static final String ATTR_UPDATED_AT = "updatedAt";
 
@@ -29,41 +29,28 @@ public abstract class Updatable {
   @Column(name = COL_UPDATED_AT, nullable = false)
   protected Instant updatedAt;
 
-  public Updatable() {
-    this(Instant.now());
+  public SavableEntity() {
   }
 
-  public Updatable(Instant createdAt) {
+  public SavableEntity(Instant createdAt) {
     notNull(createdAt, ATTR_CREATED_AT);
 
     this.createdAt = createdAt;
     this.updatedAt = createdAt;
   }
 
-  /**
-   * 게으른 엔티티 생성시각 설정 등의 처리.
-   */
-  @PrePersist
-  protected void prePersist() {
-  }
-
-  /**
-   * 게으른 엔티티 갱신시각 설정 등의 처리.
-   */
-  @PreUpdate
-  protected void preUpdate() {
-  }
-
+  @Override
   public Instant getCreatedAt() {
     return this.createdAt;
   }
 
+  @Override
   public Instant getUpdatedAt() {
     return this.updatedAt;
   }
 
   @Override
   public String toString() {
-    return format("%s=%s, %s=%s", ATTR_CREATED_AT, this.createdAt, ATTR_UPDATED_AT, this.updatedAt);
+    return format("createdAt=%s, updatedAt=%s", this.createdAt, this.updatedAt);
   }
 }

@@ -1,4 +1,5 @@
 dependencies {
-  implementation "kr.lul.common:common-util:$COMMON_VERSION"
-  implementation "org.springframework.boot:spring-boot-starter-security"
+  api "kr.lul.common:common-util:$COMMON_VERSION"
+
+  api "org.springframework.boot:spring-boot-starter-security"
 }
