@@ -1,7 +1,7 @@
 package kr.lul.support.spring.security.userdetails;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -14,17 +14,17 @@ import static kr.lul.common.util.Arguments.positive;
  * @author justburrow
  * @since 2019/11/09
  */
-public class AccountDetails extends User {
+public class User extends org.springframework.security.core.userdetails.User implements UserDetails {
   private final long id;
 
-  public AccountDetails(long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+  public User(long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, authorities);
 
     positive(id, "id");
     this.id = id;
   }
 
-  public AccountDetails(long id, String username, String password, boolean enabled, boolean accountNonExpired,
+  public User(long id, String username, String password, boolean enabled, boolean accountNonExpired,
       boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 
@@ -39,9 +39,9 @@ public class AccountDetails extends User {
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
-    if (!(o instanceof AccountDetails)) return false;
+    if (!(o instanceof User)) return false;
 
-    return this.id == ((AccountDetails) o).id;
+    return this.id == ((User) o).id;
   }
 
   @Override
@@ -51,7 +51,7 @@ public class AccountDetails extends User {
 
   @Override
   public String toString() {
-    return new StringBuilder(AccountDetails.class.getSimpleName())
+    return new StringBuilder(User.class.getSimpleName())
         .append("{id=").append(this.id)
         .append(", password=[ PROTECTED ], username=").append(getUsername())
         .append(", authorities=").append(getAuthorities())
