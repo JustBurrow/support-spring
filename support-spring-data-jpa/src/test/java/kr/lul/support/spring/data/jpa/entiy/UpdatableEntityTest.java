@@ -35,13 +35,13 @@ public class UpdatableEntityTest {
     log.info("GIVEN - updatedAt={}", updatedAt);
 
     // WHEN
-    UpdatableEntity actual = new UpdatableEntity() {
+    UpdatableEntity actual = new UpdatableEntity(updatedAt) {
     };
     log.info("WHEN - actual={}", actual);
 
     // THEN
     assertThat(actual)
         .extracting(UpdatableEntity::getUpdatedAt)
-        .isEqualTo(actual);
+        .isEqualTo(updatedAt);
   }
 }
