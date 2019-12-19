@@ -1,5 +1,6 @@
 rootProject.name = 'support-spring'
 
 include 'support-spring-data-jpa',
+    'support-spring-mail',
     'support-spring-security',
     'support-spring-web'
