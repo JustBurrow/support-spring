@@ -1,7 +1,11 @@
 package kr.lul.support.spring.mail;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
 
 /**
  * @author justburrow
@@ -10,4 +14,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableAsync
 public class SupportSpringMailTestConfiguration {
+  @Bean
+  public Executor executor() {
+    return new ThreadPoolTaskExecutor();
+  }
 }

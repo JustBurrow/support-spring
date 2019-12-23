@@ -2,6 +2,7 @@ package kr.lul.support.spring.mail;
 
 import kr.lul.common.data.Context;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -90,6 +91,7 @@ public class MailServiceImplTest {
   }
 
   @Test
+  @Ignore
   public void test_asyncSend() throws Exception {
     // GIVEN
     MailParams params = new MailParams(new Context(), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",
