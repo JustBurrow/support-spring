@@ -28,7 +28,7 @@ import static org.springframework.http.HttpStatus.*;
  */
 @ControllerAdvice
 public class CommonWebHttpExceptionHandler {
-  private static final Logger log = getLogger(CommonWebHttpExceptionHandler.class);
+  protected static final Logger log = getLogger(CommonWebHttpExceptionHandler.class);
 
   public static final String VIEW_GROUP = "error";
   public static final String VIEW_100 = VIEW_GROUP + "/informational/1xx";
