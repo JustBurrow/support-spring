@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import static kr.lul.common.util.Arguments.positive;
@@ -16,6 +17,20 @@ import static kr.lul.common.util.Arguments.positive;
  */
 public class User extends org.springframework.security.core.userdetails.User implements UserDetails {
   private final long id;
+
+  /**
+   * Test only.
+   */
+  protected User() {
+    super("0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_" +
+              "0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_" +
+              "0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_" +
+              "0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_" +
+              "0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_" +
+              "0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789_0123456789",
+        "?", List.of());
+    this.id = Long.MAX_VALUE;
+  }
 
   public User(long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
     super(username, password, authorities);
@@ -52,13 +67,13 @@ public class User extends org.springframework.security.core.userdetails.User imp
   @Override
   public String toString() {
     return new StringBuilder(User.class.getSimpleName())
-        .append("{id=").append(this.id)
-        .append(", password=[ PROTECTED ], username=").append(getUsername())
-        .append(", authorities=").append(getAuthorities())
-        .append(", accountNonExpired=").append(isAccountNonExpired())
-        .append(", accountNonLocked=").append(isAccountNonLocked())
-        .append(", credentialsNonExpired=").append(isCredentialsNonExpired())
-        .append(", enabled=").append(isEnabled())
-        .append('}').toString();
+               .append("{id=").append(this.id)
+               .append(", password=[ PROTECTED ], username=").append(getUsername())
+               .append(", authorities=").append(getAuthorities())
+               .append(", accountNonExpired=").append(isAccountNonExpired())
+               .append(", accountNonLocked=").append(isAccountNonLocked())
+               .append(", credentialsNonExpired=").append(isCredentialsNonExpired())
+               .append(", enabled=").append(isEnabled())
+               .append('}').toString();
   }
 }
