@@ -1,13 +1,13 @@
 package kr.lul.support.spring.data.jpa.entiy;
 
 import kr.lul.common.data.Savable;
+import kr.lul.common.util.ValidationException;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 import static java.lang.String.format;
-import static kr.lul.common.util.Arguments.notNull;
 
 /**
  * 생성과 갱신이 가능한 엔티티의 기본 코드.
@@ -33,7 +33,8 @@ public abstract class SavableEntity implements Savable<Instant> {
   }
 
   public SavableEntity(Instant createdAt) {
-    notNull(createdAt, ATTR_CREATED_AT);
+    if (null == createdAt)
+      throw new ValidationException(ATTR_CREATED_AT, null, "createdAt is null.");
 
     this.createdAt = createdAt;
     this.updatedAt = createdAt;
