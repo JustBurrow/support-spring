@@ -4,4 +4,5 @@ dependencies {
 
   api "org.springframework.boot:spring-boot-starter-web"
   api "org.springframework.boot:spring-boot-starter-thymeleaf"
+  api "com.github.bufferings:thymeleaf-extras-nl2br:1.0.2"
 }
