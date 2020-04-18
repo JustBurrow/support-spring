@@ -1,8 +1,10 @@
 package kr.lul.support.spring.web.interceptor;
 
+import kr.lul.common.data.Context;
 import kr.lul.common.util.TimeProvider;
 import kr.lul.support.spring.web.context.ContextService;
 import org.slf4j.Logger;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -25,6 +27,8 @@ import static org.slf4j.LoggerFactory.getLogger;
  */
 public class LoggingInterceptor implements HandlerInterceptor {
   private static final Logger log = getLogger(LoggingInterceptor.class);
+
+  private static final String LOG_KEY_CONTEXT = "ctx";
 
   @Autowired
   private ContextService contextService;
@@ -53,11 +57,12 @@ public class LoggingInterceptor implements HandlerInterceptor {
     String method = request.getMethod();
     URL url = new URL(request.getRequestURL().toString());
     Map<String, String> headers = list(request.getHeaderNames()).stream()
-        .collect(toMap(name -> name, request::getHeader));
+                                      .collect(toMap(name -> name, request::getHeader));
 
+    Context context = this.contextService.issue();
+    MDC.put(LOG_KEY_CONTEXT, context.toString());
     if (log.isInfoEnabled())
-      log.info("#preHandle context={}, timestamp={}, method={}, url={}, headers={}",
-          this.contextService.issue(), now, method, url, headers);
+      log.info("#preHandle context={}, timestamp={}, method={}, url={}, headers={}", context, now, method, url, headers);
 
     return true;
   }
@@ -69,14 +74,17 @@ public class LoggingInterceptor implements HandlerInterceptor {
       log.trace("#afterCompletion args : request={}, response={}, handler={}, ex={}", request, response, handler, ex);
     final Instant now = this.timeProvider.now();
 
-    Map<String, String> headers = response.getHeaderNames().stream()
-        .collect(toMap(name -> name, response::getHeader));
+    Map<String, String> headers =
+        response.getHeaderNames().stream()
+            .collect(toMap(name -> name, response::getHeader));
 
-    if (log.isInfoEnabled())
-      log.info("#afterCompletion context={}, timestamp={}, latency={}, headers={}",
-          this.contextService.get(), now, between(this.pre.get(), now), headers);
+    Context context = this.contextService.get();
+    if (log.isTraceEnabled())
+      log.trace("#afterCompletion context={}, timestamp={}, latency={}, headers={}",
+          context, now, between(this.pre.get(), now), headers);
 
     this.pre.remove();
     this.contextService.clear();
+    MDC.remove(LOG_KEY_CONTEXT);
   }
 }
