@@ -1,16 +1,15 @@
-package kr.lul.support.spring.web.context;
+package kr.lul.support.spring.common.context;
 
 import kr.lul.common.data.Context;
 import org.slf4j.Logger;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author justburrow
  * @since 2019/12/07
  */
 public class DefaultContextService implements ContextService {
-  private static final Logger log = getLogger(DefaultContextService.class);
+  private static final Logger log = LoggerFactory.getLogger(DefaultContextService.class);
 
   private final Object lock = new Object();
   private ThreadLocal<Context> holder = new ThreadLocal<>();

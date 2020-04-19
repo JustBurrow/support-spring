@@ -2,7 +2,7 @@ package kr.lul.support.spring.web.interceptor;
 
 import kr.lul.common.data.Context;
 import kr.lul.common.util.TimeProvider;
-import kr.lul.support.spring.web.context.ContextService;
+import kr.lul.support.spring.common.context.ContextService;
 import org.slf4j.Logger;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +68,8 @@ public class LoggingInterceptor implements HandlerInterceptor {
   }
 
   @Override
-  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex
-  ) throws Exception {
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
+      Exception ex) throws Exception {
     if (log.isTraceEnabled())
       log.trace("#afterCompletion args : request={}, response={}, handler={}, ex={}", request, response, handler, ex);
     final Instant now = this.timeProvider.now();

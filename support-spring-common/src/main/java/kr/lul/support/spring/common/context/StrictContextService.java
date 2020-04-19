@@ -1,9 +1,8 @@
-package kr.lul.support.spring.web.context;
+package kr.lul.support.spring.common.context;
 
 import kr.lul.common.data.Context;
 import org.slf4j.Logger;
-
-import static org.slf4j.LoggerFactory.getLogger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <ol>
@@ -15,7 +14,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @since 2019/12/07
  */
 public class StrictContextService implements ContextService {
-  private static final Logger log = getLogger(StrictContextService.class);
+  private static final Logger log = LoggerFactory.getLogger(StrictContextService.class);
   private static final String MSG_CONTEXT_DOES_NOT_EXIST = "context does not exist.";
 
   private final Object lock = new Object();

@@ -1,28 +1,26 @@
-package kr.lul.support.spring.web.context;
+package kr.lul.support.spring.common.context;
 
 import kr.lul.common.data.Context;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import static java.lang.String.format;
 import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * @author justburrow
  * @since 2019/12/11
  */
-public class StrictContextServiceTest {
-  private static final Logger log = getLogger(StrictContextServiceTest.class);
+public class DefaultContextServiceTest {
+  private static final Logger log = LoggerFactory.getLogger(DefaultContextServiceTest.class);
 
   private ContextService service;
 
   @Before
   public void setUp() throws Exception {
-    this.service = new StrictContextService();
+    this.service = new DefaultContextService();
   }
 
   @Test
@@ -39,29 +37,59 @@ public class StrictContextServiceTest {
   }
 
   @Test
-  public void test_issue_twice() throws Exception {
-    // GIVEN
-    Context context = this.service.issue();
-    log.info("GIVEN - context={}", context);
-
-    // WHEN & THEN
-    assertThatThrownBy(() -> this.service.issue())
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessageStartingWith("context already exists")
-        .hasMessageContaining(context.id().toString());
-  }
-
-  @Test
-  public void test_get_before_issue() throws Exception {
-    assertThatThrownBy(() -> this.service.get())
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessageStartingWith("context does not exist.");
-  }
-
-  @Test
   public void test_get() throws Exception {
+    // WHEN
+    Context context = this.service.get();
+    log.info("WHEN - context={}", context);
+
+    // THEN
+    assertThat(context)
+        .isNotNull()
+        .extracting(Context::id)
+        .isNotNull();
+  }
+
+  @Test
+  public void test_issue_and_get() throws Exception {
     // GIVEN
     Context expected = this.service.issue();
+    log.info("GIVEN - expected={}", expected);
+
+    // WHEN
+    Context actual = this.service.get();
+    log.info("WHEN - actual={}", actual);
+
+    // THEN
+    assertThat(actual)
+        .isNotNull()
+        .isEqualTo(expected)
+        .extracting(Context::id)
+        .isEqualTo(expected.id());
+  }
+
+  @Test
+  public void test_issue_twice() throws Exception {
+    // GIVEN
+    Context expected = this.service.issue();
+    log.info("GIVEN - expected={}", expected);
+
+    // WHEN
+    Context actual = this.service.issue();
+    log.info("WHEN - actual={}", actual);
+
+    // THEN
+    assertThat(actual)
+        .isNotNull()
+        .isNotEqualTo(expected)
+        .extracting(Context::id)
+        .isNotNull()
+        .isNotEqualTo(expected.id());
+  }
+
+  @Test
+  public void test_get_twice() throws Exception {
+    // GIVEN
+    Context expected = this.service.get();
     log.info("GIVEN - expected={}", expected);
 
     // WHEN
@@ -79,13 +107,17 @@ public class StrictContextServiceTest {
 
   @Test
   public void test_clear_before_issue() throws Exception {
-    assertThatThrownBy(() -> this.service.clear())
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessage("context does not exist.");
+    // WHEN
+    boolean actual = this.service.clear();
+    log.info("WHEN - actual={}", actual);
+
+    // THEN
+    assertThat(actual)
+        .isFalse();
   }
 
   @Test
-  public void test_clear() throws Exception {
+  public void test_clear_after_issue() throws Exception {
     // GIVEN
     Context context = this.service.issue();
     log.info("GIVEN - context={}", context);
@@ -97,9 +129,6 @@ public class StrictContextServiceTest {
     // THEN
     assertThat(clear)
         .isTrue();
-    assertThatThrownBy(() -> this.service.get())
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessage("context does not exist.");
   }
 
   @Test
@@ -120,7 +149,6 @@ public class StrictContextServiceTest {
         .isNotNull()
         .isNotEqualTo(expected)
         .extracting(Context::id)
-        .isNotNull()
         .isNotEqualTo(expected.id());
   }
 
@@ -135,20 +163,22 @@ public class StrictContextServiceTest {
 
     @Override
     public void run() {
+      this.context = DefaultContextServiceTest.this.service.issue();
+
       synchronized (this.lock) {
         try {
-          this.context = StrictContextServiceTest.this.service.issue();
           this.lock.wait();
         } catch (InterruptedException e) {
           throw new RuntimeException(e);
         }
       }
-      this.clear = StrictContextServiceTest.this.service.clear();
+
+      this.clear = DefaultContextServiceTest.this.service.clear();
     }
 
     @Override
     public String toString() {
-      return format("%s{context=%s, clear=%b}", ContextRunnable.class.getSimpleName(), this.context, this.clear);
+      return String.format("%s{context=%s}", ContextRunnable.class.getSimpleName(), this.context);
     }
   }
 
@@ -170,16 +200,21 @@ public class StrictContextServiceTest {
     t1.start();
     t2.start();
     sleep(10L);
-    log.info("WHEN - t1={}, cr1={}", t1, cr1.context);
-    log.info("WHEN - t2={}, cr2={}", t2, cr2.context);
+    log.info("WHEN - t1={}, cr1={}", t1, cr1);
+    log.info("WHEN - t2={}, cr2={}", t2, cr2);
 
     // THEN
     synchronized (lock) {
       assertThat(cr1.context)
           .isNotNull()
-          .isNotEqualTo(cr2.context)
           .extracting(Context::id)
-          .isNotEqualTo(cr2.context.id());
+          .isNotNull();
+      assertThat(cr2.context)
+          .isNotNull()
+          .isNotEqualTo(cr1.context)
+          .extracting(Context::id)
+          .isNotNull()
+          .isNotEqualTo(cr1.context.id());
       lock.notifyAll();
     }
     sleep(10L);

@@ -1,4 +1,4 @@
-package kr.lul.support.spring.web.context;
+package kr.lul.support.spring.common.context;
 
 import kr.lul.common.data.Context;
 

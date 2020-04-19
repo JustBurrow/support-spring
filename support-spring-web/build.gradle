@@ -1,4 +1,6 @@
 dependencies {
+  api project(":support-spring-common")
+
   api "kr.lul.common:common-data:$COMMON_VERSION"
   api "kr.lul.common:common-web:$COMMON_VERSION"
 
