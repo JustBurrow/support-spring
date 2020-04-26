@@ -4,6 +4,8 @@ import kr.lul.common.data.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.UUID.randomUUID;
+
 /**
  * <ol>
  * <li>유효한 컨텍스트가 있을 경우에는 {@link #issue()}가 {@link IllegalStateException}을 던진다.</li>
@@ -30,7 +32,7 @@ public class StrictContextService implements ContextService {
         throw new IllegalStateException(msg);
       }
 
-      context = new Context();
+      context = new Context(randomUUID());
       this.holder.set(context);
 
       if (log.isInfoEnabled())

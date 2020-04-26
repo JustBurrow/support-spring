@@ -4,6 +4,8 @@ import kr.lul.common.data.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.UUID.randomUUID;
+
 /**
  * @author justburrow
  * @since 2019/12/07
@@ -17,7 +19,7 @@ public class DefaultContextService implements ContextService {
   @Override
   public Context issue() {
     synchronized (this.lock) {
-      Context context = new Context();
+      Context context = new Context(randomUUID());
       if (log.isInfoEnabled())
         log.info("#issue context={}", context);
       this.holder.set(context);
@@ -32,7 +34,7 @@ public class DefaultContextService implements ContextService {
       if (log.isInfoEnabled())
         log.info("#get current : context={}", context);
       if (null == context) {
-        context = new Context();
+        context = new Context(randomUUID());
         if (log.isInfoEnabled())
           log.info("#get new : context={}", context);
         this.holder.set(context);

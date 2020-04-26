@@ -32,7 +32,7 @@ public class DefaultContextServiceTest {
     // THEN
     assertThat(context)
         .isNotNull()
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull();
   }
 
@@ -45,7 +45,7 @@ public class DefaultContextServiceTest {
     // THEN
     assertThat(context)
         .isNotNull()
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull();
   }
 
@@ -63,8 +63,8 @@ public class DefaultContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isEqualTo(expected)
-        .extracting(Context::id)
-        .isEqualTo(expected.id());
+        .extracting(Context::getId)
+        .isEqualTo(expected.getId());
   }
 
   @Test
@@ -81,9 +81,9 @@ public class DefaultContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isNotEqualTo(expected)
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull()
-        .isNotEqualTo(expected.id());
+        .isNotEqualTo(expected.getId());
   }
 
   @Test
@@ -100,9 +100,9 @@ public class DefaultContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isEqualTo(expected)
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull()
-        .isEqualTo(expected.id());
+        .isEqualTo(expected.getId());
   }
 
   @Test
@@ -148,8 +148,8 @@ public class DefaultContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isNotEqualTo(expected)
-        .extracting(Context::id)
-        .isNotEqualTo(expected.id());
+        .extracting(Context::getId)
+        .isNotEqualTo(expected.getId());
   }
 
   class ContextRunnable implements Runnable {
@@ -207,14 +207,14 @@ public class DefaultContextServiceTest {
     synchronized (lock) {
       assertThat(cr1.context)
           .isNotNull()
-          .extracting(Context::id)
+          .extracting(Context::getId)
           .isNotNull();
       assertThat(cr2.context)
           .isNotNull()
           .isNotEqualTo(cr1.context)
-          .extracting(Context::id)
+          .extracting(Context::getId)
           .isNotNull()
-          .isNotEqualTo(cr1.context.id());
+          .isNotEqualTo(cr1.context.getId());
       lock.notifyAll();
     }
     sleep(10L);

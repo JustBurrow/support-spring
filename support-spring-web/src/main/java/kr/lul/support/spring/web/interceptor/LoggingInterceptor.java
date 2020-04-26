@@ -60,7 +60,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
                                       .collect(toMap(name -> name, request::getHeader));
 
     Context context = this.contextService.issue();
-    MDC.put(LOG_KEY_CONTEXT, context.toString());
+    MDC.put(LOG_KEY_CONTEXT, context.getId().toString());
     if (log.isInfoEnabled())
       log.info("#preHandle context={}, timestamp={}, method={}, url={}, headers={}", context, now, method, url, headers);
 

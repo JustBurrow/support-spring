@@ -33,7 +33,7 @@ public class StrictContextServiceTest {
     // THEN
     assertThat(context)
         .isNotNull()
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull();
   }
 
@@ -47,7 +47,7 @@ public class StrictContextServiceTest {
     assertThatThrownBy(() -> this.service.issue())
         .isInstanceOf(IllegalStateException.class)
         .hasMessageStartingWith("context already exists")
-        .hasMessageContaining(context.id().toString());
+        .hasMessageContaining(context.getId().toString());
   }
 
   @Test
@@ -71,9 +71,9 @@ public class StrictContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isEqualTo(expected)
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull()
-        .isEqualTo(expected.id());
+        .isEqualTo(expected.getId());
   }
 
   @Test
@@ -118,9 +118,9 @@ public class StrictContextServiceTest {
     assertThat(actual)
         .isNotNull()
         .isNotEqualTo(expected)
-        .extracting(Context::id)
+        .extracting(Context::getId)
         .isNotNull()
-        .isNotEqualTo(expected.id());
+        .isNotEqualTo(expected.getId());
   }
 
   class ContextRunnable implements Runnable {
@@ -177,8 +177,8 @@ public class StrictContextServiceTest {
       assertThat(cr1.context)
           .isNotNull()
           .isNotEqualTo(cr2.context)
-          .extracting(Context::id)
-          .isNotEqualTo(cr2.context.id());
+          .extracting(Context::getId)
+          .isNotEqualTo(cr2.context.getId());
       lock.notifyAll();
     }
     sleep(10L);

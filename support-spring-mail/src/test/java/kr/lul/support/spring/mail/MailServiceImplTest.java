@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Future;
 
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -57,7 +58,7 @@ public class MailServiceImplTest {
   @Test
   public void test_send() throws Exception {
     // GIVEN
-    MailParams params = new MailParams(new Context(), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",
+    MailParams params = new MailParams(new Context(randomUUID()), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",
         "test_send title", "mail", true,
         Map.of("textAttr", "test_send content."));
     log.info("GIVEN - params={}", params);
@@ -94,7 +95,7 @@ public class MailServiceImplTest {
   @Ignore
   public void test_asyncSend() throws Exception {
     // GIVEN
-    MailParams params = new MailParams(new Context(), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",
+    MailParams params = new MailParams(new Context(randomUUID()), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",
         "test_asyncSend title", "mail", true,
         Map.of("textAttr", "test_asyncSend content."));
     log.info("GIVEN - params={}", params);
@@ -163,20 +164,20 @@ public class MailServiceImplTest {
     assertThat(message)
         .isNotNull()
         .isEqualTo("<!DOCTYPE html>\n" +
-            "<html lang=\"ko_JP\">\n" +
-            "<head>\n" +
-            "    \n" +
-            "    \n" +
-            "    <meta charset=\"UTF-8\"/>\n" +
-            "    <title>Mail Template</title>\n" +
-            "</head>\n" +
-            "<body>\n" +
-            "<main>\n" +
-            "    <h1>Mail Template</h1>\n" +
-            "    \n" +
-            "    <p>test_buildMessage</p>\n" +
-            "</main>\n" +
-            "</body>\n" +
-            "</html>\n");
+                       "<html lang=\"ko_JP\">\n" +
+                       "<head>\n" +
+                       "    \n" +
+                       "    \n" +
+                       "    <meta charset=\"UTF-8\"/>\n" +
+                       "    <title>Mail Template</title>\n" +
+                       "</head>\n" +
+                       "<body>\n" +
+                       "<main>\n" +
+                       "    <h1>Mail Template</h1>\n" +
+                       "    \n" +
+                       "    <p>test_buildMessage</p>\n" +
+                       "</main>\n" +
+                       "</body>\n" +
+                       "</html>\n");
   }
 }
