@@ -1,6 +1,6 @@
 package kr.lul.support.spring.data.jpa.entiy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import java.time.Instant;

@@ -1,15 +1,12 @@
 package kr.lul.support.spring.mail;
 
 import kr.lul.common.data.Context;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -26,7 +23,6 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author justburrow
  * @since 2019/12/19
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = SupportSpringMailTestConfiguration.class)
 public class MailServiceImplTest {
   private static final Logger log = getLogger(MailServiceImplTest.class);
@@ -37,7 +33,7 @@ public class MailServiceImplTest {
   private MailService service;
   private Instant before;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     assertThat(this.applicationContext).isNotNull();
 
@@ -91,8 +87,6 @@ public class MailServiceImplTest {
         .hasMessage("params is null.");
   }
 
-  @Test
-  @Ignore
   public void test_asyncSend() throws Exception {
     // GIVEN
     MailParams params = new MailParams(new Context(randomUUID()), "Dev Test<just.burrow@lul.kr>", "just.burrow@lul.kr",

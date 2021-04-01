@@ -1,7 +1,7 @@
 package kr.lul.support.spring.data.jpa.entiy;
 
 import kr.lul.common.util.ValidationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import java.time.Instant;

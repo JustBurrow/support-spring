@@ -1,7 +1,7 @@
 package kr.lul.support.spring.data.jpa.converter;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 
 import java.math.BigInteger;
@@ -20,7 +20,7 @@ public class DurationLongAttributeConverterTest {
   private static final Logger log = getLogger(DurationLongAttributeConverterTest.class);
   private DurationLongAttributeConverter converter;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     this.converter = new DurationLongAttributeConverter();
   }
@@ -70,10 +70,10 @@ public class DurationLongAttributeConverterTest {
     assertThat(actual)
         .isNotNull()
         .isEqualTo(Long.parseLong(new BigInteger("" + second)
-            .multiply(new BigInteger("" + NANO_FOR_SECOND))
-            .add(new BigInteger("" + nano))
-            .divide(new BigInteger("" + (NANO_FOR_SECOND / 1_000L)))
-            .toString()));
+                                      .multiply(new BigInteger("" + NANO_FOR_SECOND))
+                                      .add(new BigInteger("" + nano))
+                                      .divide(new BigInteger("" + (NANO_FOR_SECOND / 1_000L)))
+                                      .toString()));
   }
 
   @Test

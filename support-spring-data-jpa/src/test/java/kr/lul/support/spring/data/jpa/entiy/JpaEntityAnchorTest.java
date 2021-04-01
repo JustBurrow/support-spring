@@ -1,6 +1,6 @@
 package kr.lul.support.spring.data.jpa.entiy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

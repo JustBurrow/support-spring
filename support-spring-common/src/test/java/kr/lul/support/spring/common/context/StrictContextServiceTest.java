@@ -1,8 +1,8 @@
 package kr.lul.support.spring.common.context;
 
 import kr.lul.common.data.Context;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class StrictContextServiceTest {
 
   private ContextService service;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     this.service = new StrictContextService();
   }
