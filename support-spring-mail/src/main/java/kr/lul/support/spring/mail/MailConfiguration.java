@@ -1,5 +1,6 @@
 package kr.lul.support.spring.mail;
 
+import static kr.lul.common.util.Arguments.notEmpty;
 import static kr.lul.common.util.Arguments.notNull;
 
 /**
@@ -24,15 +25,19 @@ public class MailConfiguration {
   private String template;
 
   public MailConfiguration(MailProperties properties) {
-    notNull(properties, "properties");
-
     validate(properties);
+
     this.from = properties.getFrom();
     this.title = properties.getTitle();
     this.template = properties.getTemplate();
   }
 
   protected void validate(MailProperties properties) {
+    notNull(properties, "properties");
+
+    notEmpty(properties.getFrom(), "properties.from");
+    notEmpty(properties.getTitle(), "properties.title");
+    notEmpty(properties.getTemplate(), "properties.template");
   }
 
   public String getFrom() {
@@ -50,9 +55,9 @@ public class MailConfiguration {
   @Override
   public String toString() {
     return new StringBuilder()
-        .append("{from='").append(this.from).append('\'')
-        .append(", title='").append(this.title).append('\'')
-        .append(", template='").append(this.template).append('\'')
-        .append('}').toString();
+               .append("{from='").append(this.from).append('\'')
+               .append(", title='").append(this.title).append('\'')
+               .append(", template='").append(this.template).append('\'')
+               .append('}').toString();
   }
 }
