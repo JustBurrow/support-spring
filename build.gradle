@@ -14,10 +14,6 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 
 allprojects {
-  ext {
-    COMMON_VERSION = '0.0.1.SNAPSHOT'
-  }
-
   group 'kr.lul.support.spring'
   version '0.0.1.SNAPSHOT'
 
@@ -34,24 +30,28 @@ subprojects {
   apply plugin: 'maven-publish'
   apply plugin: 'org.springframework.boot'
 
-  sourceCompatibility = 11
+  sourceCompatibility = JavaVersion.VERSION_1_9
 
   dependencyManagement {
     imports {
+      //noinspection UnnecessaryQualifiedReference
       mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
     }
 
+    def commonVersion = '0.0.1.SNAPSHOT'
     dependencies {
-      dependency "kr.lul.common:common-data:$COMMON_VERSION"
-      dependency "kr.lul.common:common-logging:$COMMON_VERSION"
-      dependency "kr.lul.common:common-util:$COMMON_VERSION"
-      dependency "kr.lul.common:common-web:$COMMON_VERSION"
+      dependency "kr.lul.common:common-data:$commonVersion"
+      dependency "kr.lul.common:common-logging:$commonVersion"
+      dependency "kr.lul.common:common-util:$commonVersion"
+      dependency "kr.lul.common:common-web:$commonVersion"
       dependency 'org.apache.commons:commons-lang3:3.12.0'
+      dependency 'org.apache.commons:commons-text:1.9'
       dependency 'com.github.bufferings:thymeleaf-extras-nl2br:1.0.2'
     }
   }
 
   dependencies {
+    testImplementation 'org.apache.commons:commons-lang3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
   }
 
