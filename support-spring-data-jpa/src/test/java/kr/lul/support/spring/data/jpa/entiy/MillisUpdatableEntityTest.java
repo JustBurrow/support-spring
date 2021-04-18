@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 
 import java.time.Instant;
 
+import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
 import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -46,9 +47,8 @@ public class MillisUpdatableEntityTest {
     log.info("WHEN - actual={}", actual);
 
     // THEN
-    assertThat(actual)
-        .extracting(MillisUpdatableEntity::getUpdatedAt)
+    assertThat(actual.updatedAt)
         .isNotEqualTo(this.before)
-        .isEqualTo(this.before.with(NANO_OF_SECOND, 123_000_000L));
+        .isAfterOrEqualTo(this.before.with(MICRO_OF_SECOND, 0L));
   }
 }

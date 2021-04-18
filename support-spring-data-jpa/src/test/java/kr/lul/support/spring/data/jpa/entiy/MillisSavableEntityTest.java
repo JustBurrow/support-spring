@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 
 import java.time.Instant;
 
+import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
 import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static kr.lul.support.spring.data.jpa.entiy.CreatableEntity.ATTR_CREATED_AT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,10 +49,10 @@ public class MillisSavableEntityTest {
     log.info("WHEN - actual={}", actual);
 
     // THEN
-    assertThat(actual)
-        .isNotNull()
-        .extracting(MillisSavableEntity::getCreatedAt, MillisSavableEntity::getUpdatedAt)
-        .containsSequence(this.before.with(NANO_OF_SECOND, 123_000_000L), this.before.with(NANO_OF_SECOND, 123_000_000L));
+    assertThat(actual.createdAt)
+        .isAfterOrEqualTo(this.before.with(MICRO_OF_SECOND, 0L));
+    assertThat(actual.updatedAt)
+        .isEqualTo(actual.createdAt);
   }
 
   @Test

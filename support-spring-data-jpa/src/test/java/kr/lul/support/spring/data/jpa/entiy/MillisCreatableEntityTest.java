@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 
 import java.time.Instant;
 
+import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
 import static java.time.temporal.ChronoField.NANO_OF_SECOND;
 import static kr.lul.support.spring.data.jpa.entiy.CreatableEntity.ATTR_CREATED_AT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,11 +54,9 @@ public class MillisCreatableEntityTest {
         .extracting(MillisCreatableEntity::getCreatedAt)
         .isNotEqualTo(this.before);
 
-    assertThat(actual.createdAt.getEpochSecond())
-        .isEqualTo(this.before.getEpochSecond());
-    assertThat(actual.createdAt.getNano())
-        .isNotEqualTo(this.before.getNano())
-        .isEqualTo((this.before.getNano() / 1_000_000L) * 1_000_000L);
+    assertThat(actual.getCreatedAt())
+        .isNotNull()
+        .isAfterOrEqualTo(this.before.with(MICRO_OF_SECOND, 0L));
   }
 
   @SuppressWarnings("ConstantConditions")
