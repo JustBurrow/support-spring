@@ -1,5 +1,5 @@
 dependencies {
-  api "kr.lul.common:common-data:$COMMON_VERSION"
+  api project(':support-spring-common')
 
   api 'org.springframework.boot:spring-boot-starter-mail'
   api 'org.springframework.boot:spring-boot-starter-thymeleaf'

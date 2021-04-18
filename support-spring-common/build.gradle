@@ -1,6 +1,5 @@
 dependencies {
   api "kr.lul.common:common-data:$COMMON_VERSION"
-  api "kr.lul.common:common-web:$COMMON_VERSION"
 
-  api "org.springframework.boot:spring-boot-starter"
+  api 'org.springframework.boot:spring-boot-starter'
 }
