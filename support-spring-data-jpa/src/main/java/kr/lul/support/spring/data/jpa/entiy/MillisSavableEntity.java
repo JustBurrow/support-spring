@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 import static java.lang.String.format;
-import static kr.lul.common.util.TemporalUtils.millisecondsPrecision;
+import static java.time.temporal.ChronoField.MICRO_OF_SECOND;
 
 /**
  * 생성과 갱신이 가능한 엔티티의 기본 코드.
@@ -35,9 +35,9 @@ public abstract class MillisSavableEntity implements Savable<Instant> {
 
   public MillisSavableEntity(Instant createdAt) {
     if (null == createdAt)
-      throw new ValidationException(ATTR_CREATED_AT, createdAt, "createdAt is null.");
+      throw new ValidationException(ATTR_CREATED_AT, null, "createdAt is null.");
 
-    this.createdAt = this.updatedAt = millisecondsPrecision(createdAt);
+    this.createdAt = this.updatedAt = createdAt.with(MICRO_OF_SECOND, 0L);
   }
 
   @Override

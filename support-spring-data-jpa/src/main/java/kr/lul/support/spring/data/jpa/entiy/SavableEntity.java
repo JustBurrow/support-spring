@@ -36,8 +36,7 @@ public abstract class SavableEntity implements Savable<Instant> {
     if (null == createdAt)
       throw new ValidationException(ATTR_CREATED_AT, null, "createdAt is null.");
 
-    this.createdAt = createdAt;
-    this.updatedAt = createdAt;
+    this.createdAt = this.updatedAt = createdAt;
   }
 
   @Override
