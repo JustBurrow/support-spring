@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 import static java.lang.String.format;
-import static kr.lul.common.util.TemporalUtils.millisecondsPrecision;
+import static kr.lul.common.util.TemporalUtils.LEAVE_MILLISECONDS;
 
 /**
  * 생성 가능한 엔티티의 기본 코드.
@@ -32,7 +32,7 @@ public abstract class MillisCreatableEntity implements Creatable<Instant> {
       //noinspection ConstantConditions
       throw new ValidationException(ATTR_CREATED_AT, createdAt, "createdAt is null.");
 
-    this.createdAt = millisecondsPrecision(createdAt);
+    this.createdAt = LEAVE_MILLISECONDS.adjust(createdAt);
   }
 
   @Override
