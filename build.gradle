@@ -30,7 +30,7 @@ subprojects {
   apply plugin: 'maven-publish'
   apply plugin: 'org.springframework.boot'
 
-  sourceCompatibility = JavaVersion.VERSION_1_9
+  sourceCompatibility = JavaVersion.VERSION_11
 
   dependencyManagement {
     imports {
