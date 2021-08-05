@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 import java.time.Instant;
 
 import static java.lang.String.format;
-import static kr.lul.common.util.TemporalUtils.LEAVE_MILLISECONDS;
+import static kr.lul.common.util.TemporalUtils.MILLISECONDS_ADJUSTER;
 
 /**
  * @author justburrow
@@ -31,7 +31,7 @@ public abstract class MillisUpdatableEntity implements Updatable<Instant> {
     if (null == updatedAt)
       throw new ValidationException(ATTR_UPDATED_AT, null, "updatedAt is null.");
 
-    this.updatedAt = LEAVE_MILLISECONDS.adjust(updatedAt);
+    this.updatedAt = MILLISECONDS_ADJUSTER.adjust(updatedAt);
   }
 
   @Override
