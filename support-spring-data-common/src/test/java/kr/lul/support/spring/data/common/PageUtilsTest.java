@@ -22,6 +22,13 @@ class PageUtilsTest {
   private static final Logger LOGGER = getLogger(PageUtilsTest.class);
 
   @Test
+  void test_new() {
+    assertThatThrownBy(() -> new PageUtils() {
+    })
+        .isInstanceOf(UnsupportedOperationException.class);
+  }
+
+  @Test
   void test_toPage_with_illegal_params() {
     assertThatThrownBy(() -> toPage(MIN_VALUE, 1, List.of(1)))
         .isInstanceOf(IllegalArgumentException.class)
@@ -67,25 +74,25 @@ class PageUtilsTest {
     assertThat(p2).isNotNull();
     assertThat(p2.getTotalElements()).isEqualTo(0);
     assertThat(p2.getTotalPages()).isEqualTo(0);
-    assertThat(p1.getNumber()).isEqualTo(0);
-    assertThat(p1.getSize()).isEqualTo(10);
-    assertThat(p1.getNumberOfElements()).isEqualTo(0);
+    assertThat(p2.getNumber()).isEqualTo(0);
+    assertThat(p2.getSize()).isEqualTo(10);
+    assertThat(p2.getNumberOfElements()).isEqualTo(0);
     assertThat(p2.getContent()).isEmpty();
 
     assertThat(p3).isNotNull();
     assertThat(p3.getTotalElements()).isEqualTo(0);
     assertThat(p3.getTotalPages()).isEqualTo(0);
-    assertThat(p1.getNumber()).isEqualTo(1);
-    assertThat(p1.getSize()).isEqualTo(0);
-    assertThat(p1.getNumberOfElements()).isEqualTo(0);
+    assertThat(p3.getNumber()).isEqualTo(1);
+    assertThat(p3.getSize()).isEqualTo(1);
+    assertThat(p3.getNumberOfElements()).isEqualTo(0);
     assertThat(p3.getContent()).isEmpty();
 
     assertThat(p4).isNotNull();
     assertThat(p4.getTotalElements()).isEqualTo(0);
     assertThat(p4.getTotalPages()).isEqualTo(0);
-    assertThat(p1.getNumber()).isEqualTo(1);
-    assertThat(p1.getSize()).isEqualTo(10);
-    assertThat(p1.getNumberOfElements()).isEqualTo(0);
+    assertThat(p4.getNumber()).isEqualTo(1);
+    assertThat(p4.getSize()).isEqualTo(10);
+    assertThat(p4.getNumberOfElements()).isEqualTo(0);
     assertThat(p4.getContent()).isEmpty();
   }
 
@@ -112,22 +119,22 @@ class PageUtilsTest {
         .hasSize(10)
         .containsSequence(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-    assertThat(p1).isNotNull();
-    assertThat(p1.getTotalPages()).isEqualTo(2);
-    assertThat(p1.getNumber()).isEqualTo(1);
-    assertThat(p1.getTotalElements()).isEqualTo(12);
-    assertThat(p1.getSize()).isEqualTo(10);
-    assertThat(p1.getNumberOfElements()).isEqualTo(2);
-    assertThat(p1.getContent())
+    assertThat(p2).isNotNull();
+    assertThat(p2.getTotalPages()).isEqualTo(2);
+    assertThat(p2.getNumber()).isEqualTo(1);
+    assertThat(p2.getTotalElements()).isEqualTo(12);
+    assertThat(p2.getSize()).isEqualTo(10);
+    assertThat(p2.getNumberOfElements()).isEqualTo(2);
+    assertThat(p2.getContent())
         .hasSize(2)
         .containsSequence(10, 11);
 
-    assertThat(p1).isNotNull();
-    assertThat(p1.getTotalPages()).isEqualTo(2);
-    assertThat(p1.getNumber()).isEqualTo(2);
-    assertThat(p1.getTotalElements()).isEqualTo(12);
-    assertThat(p1.getSize()).isEqualTo(10);
-    assertThat(p1.getNumberOfElements()).isEqualTo(0);
-    assertThat(p1.getContent()).isEmpty();
+    assertThat(p3).isNotNull();
+    assertThat(p3.getTotalPages()).isEqualTo(2);
+    assertThat(p3.getNumber()).isEqualTo(2);
+    assertThat(p3.getTotalElements()).isEqualTo(12);
+    assertThat(p3.getSize()).isEqualTo(10);
+    assertThat(p3.getNumberOfElements()).isEqualTo(0);
+    assertThat(p3.getContent()).isEmpty();
   }
 }
